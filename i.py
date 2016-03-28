@@ -2,15 +2,13 @@ import praw
 import urllib.request
 import os.path
 import sys
-import requests
 
 STORE_LOCATION = 'images/'
 STORE_FILE_NAME = 'images/stored'
-NUMBER_OF_POSTS = 100
-	
+
 
 # returns a dictionary of the form {'postId','url'}
-def get_image_urls(reddit, theme):
+def get_image_urls(reddit, theme, NUMBER_OF_POSTS):
 	print(NUMBER_OF_POSTS)
 	dict={}
 	subreddit=reddit.get_subreddit(theme)
@@ -38,15 +36,12 @@ def download_start():
 		print("Please enter a number")
 		exit(0)
 	print("downloading upto ",NUMBER_OF_POSTS," from ", theme)
-	
 	try:
-		dict=get_image_urls(praw.Reddit(user_agent = "downloading HD wallpapers by /u/not_a_b0t"),theme)
+		dict=get_image_urls(praw.Reddit(user_agent = "downloading HD wallpapers by /u/not_a_b0t"),theme,NUMBER_OF_POSTS)
 		for key in dict.keys():
 			download_image(key,dict.get(key))
 	except praw.errors.InvalidSubreddit:
-		print("Invalid Subreddit. Please try again.")
-	except requests.exceptions.ConnectionError:
-		print("ConnectionError")
+		print("Invalid Subreddit. Please try again.")	
 
 
 download_start()
